@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "logic/grpc/base/base.proto";
+import "logic/grpc/pot/Pot_db.proto";
+
+service ImageTraffic {
+    rpc image_create(CertifiedImage) returns (Response);
+    rpc image_delete(CertifiedImage) returns (Response);
+    rpc image_read(CertifiedImage) returns (Response);
+    rpc image_read_list(CertifiedPot) returns (stream Image);
+}
+
+message Image {
+    optional string image_id = 1;
+    optional string image_file = 2;
+    optional google.protobuf.Timestamp image_time = 3;
+}
+
+message CertifiedImage {
+    AccessToken access_token = 1;
+    Pot pot = 2;
+    Image image = 3;
+}

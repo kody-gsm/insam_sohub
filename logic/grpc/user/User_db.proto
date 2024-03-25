@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "logic/grpc/base/base.proto";
+
+service UserTraffic {
+    rpc user_create(User) returns (Response);
+    rpc user_delete(AccessToken) returns (Response);
+    rpc user_update(AccessToken) returns (Response);
+    rpc user_login(User) returns (JWTToken);
+    rpc refresh_token(AccessToken) returns (RefreshToken);
+}
+
+message User {
+    string user_email = 1;
+    string user_password = 2;
+}
+
+message JWTToken {
+    string access = 1;
+    string refresh = 2;
+}
+
+message RefreshToken {
+    string refresh = 1;
+}
