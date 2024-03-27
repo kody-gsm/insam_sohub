@@ -12,7 +12,7 @@ from google.protobuf.internal import builder as _builder
 _sym_db = _symbol_database.Default()
 
 
-from logic.grpc.base import base_pb2 as logic_dot_grpc_dot_base_dot_base__pb2
+from logic._grpc.base import base_pb2 as logic_dot_grpc_dot_base_dot_base__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1dlogic/grpc/user/User_db.proto\x1a\x1alogic/grpc/base/base.proto\"1\n\x04User\x12\x12\n\nuser_email\x18\x01 \x01(\t\x12\x15\n\ruser_password\x18\x02 \x01(\t\"+\n\x08JWTToken\x12\x0e\n\x06\x61\x63\x63\x65ss\x18\x01 \x01(\t\x12\x0f\n\x07refresh\x18\x02 \x01(\t\"\x1f\n\x0cRefreshToken\x12\x0f\n\x07refresh\x18\x01 \x01(\t2\xcc\x01\n\x0bUserTraffic\x12\x1f\n\x0buser_create\x12\x05.User\x1a\t.Response\x12&\n\x0buser_delete\x12\x0c.AccessToken\x1a\t.Response\x12&\n\x0buser_update\x12\x0c.AccessToken\x1a\t.Response\x12\x1e\n\nuser_login\x12\x05.User\x1a\t.JWTToken\x12,\n\rrefresh_token\x12\x0c.AccessToken\x1a\r.RefreshTokenb\x06proto3')

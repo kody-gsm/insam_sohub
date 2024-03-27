@@ -6,7 +6,7 @@ class GRPC_Pot(GRPC_Manager):
     def __new__(cls):
         if not hasattr(cls, "_instance"):
             cls._instance = super().__new__(cls)
-            cls._instance.stub = pb2_grpc.PotTrafficStub(cls._instance.channel)
+            cls._instance.stub = pb2_grpc.PotTraffic(cls._instance.channel)
 
     def __init__(self):
         self.stub:pb2_grpc.PotTrafficStub
