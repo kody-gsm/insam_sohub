@@ -2,9 +2,9 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from logic.grpc.base import base_pb2 as logic_dot_grpc_dot_base_dot_base__pb2
-from logic.grpc.image import Image_db_pb2 as logic_dot_grpc_dot_image_dot_Image__db__pb2
-from logic.grpc.pot import Pot_db_pb2 as logic_dot_grpc_dot_pot_dot_Pot__db__pb2
+from logic._grpc.base import base_pb2 as logic_dot_grpc_dot_base_dot_base__pb2
+from logic._grpc.image import Image_db_pb2 as logic_dot_grpc_dot_image_dot_Image__db__pb2
+from logic._grpc.pot import Pot_db_pb2 as logic_dot_grpc_dot_pot_dot_Pot__db__pb2
 
 
 class ImageTrafficStub(object):

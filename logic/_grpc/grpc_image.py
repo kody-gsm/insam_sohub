@@ -1,15 +1,17 @@
-from image import Image_db_pb2 as pb2, Image_db_pb2_grpc as pb2_grpc
-from base import base_pb2 as base_pb2
-from pot import Pot_db_pb2 as pot_pb2
+from logic._grpc.image import Image_db_pb2 as pb2, Image_db_pb2_grpc as pb2_grpc
+from logic._grpc.base import base_pb2 as base_pb2
+from logic._grpc.pot import Pot_db_pb2 as pot_pb2
 from grpc_manager import GRPC_Manager
 
-class GRPC_UserPot(GRPC_Manager):
+class GRPC_Image(GRPC_Manager):
     def __new__(cls):
         if not hasattr(cls, "_instance"):
-            cls._instance = super().__new__(cls)
-            cls._instance.stub = pb2_grpc.ImageTraffic(cls._instance.channel)
+            cls._instance.manager = GRPC_Manager()
+            cls._instance.stub = pb2_grpc.ImageTrafficStub(cls._instance.manager.channel)
+        return cls._instance
 
     def __init__(self):
+        self.manager:GRPC_Manager
         self.stub:pb2_grpc.ImageTrafficStub
 
     def image_create(self, token:str, pot_code:str, pot_name, image:str):

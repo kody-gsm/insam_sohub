@@ -13,8 +13,8 @@ _sym_db = _symbol_database.Default()
 
 
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
-from logic.grpc.base import base_pb2 as logic_dot_grpc_dot_base_dot_base__pb2
-from logic.grpc.pot import Pot_db_pb2 as logic_dot_grpc_dot_pot_dot_Pot__db__pb2
+from logic._grpc.base import base_pb2 as logic_dot_grpc_dot_base_dot_base__pb2
+from logic._grpc.pot import Pot_db_pb2 as logic_dot_grpc_dot_pot_dot_Pot__db__pb2
 
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1flogic/grpc/image/Image_db.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1alogic/grpc/base/base.proto\x1a\x1blogic/grpc/pot/Pot_db.proto\"\x97\x01\n\x05Image\x12\x15\n\x08image_id\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x17\n\nimage_file\x18\x02 \x01(\tH\x01\x88\x01\x01\x12\x33\n\nimage_time\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.TimestampH\x02\x88\x01\x01\x42\x0b\n\t_image_idB\r\n\x0b_image_fileB\r\n\x0b_image_time\"^\n\x0e\x43\x65rtifiedImage\x12\"\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\x0b\x32\x0c.AccessToken\x12\x11\n\x03pot\x18\x02 \x01(\x0b\x32\x04.Pot\x12\x15\n\x05image\x18\x03 \x01(\x0b\x32\x06.Image2\xbc\x01\n\x0cImageTraffic\x12*\n\x0cimage_create\x12\x0f.CertifiedImage\x1a\t.Response\x12*\n\x0cimage_delete\x12\x0f.CertifiedImage\x1a\t.Response\x12(\n\nimage_read\x12\x0f.CertifiedImage\x1a\t.Response\x12*\n\x0fimage_read_list\x12\r.CertifiedPot\x1a\x06.Image0\x01\x62\x06proto3')

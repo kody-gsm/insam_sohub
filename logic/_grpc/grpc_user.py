@@ -1,18 +1,22 @@
-from user import User_db_pb2 as pb2, User_db_pb2_grpc as pb2_grpc
-from base import base_pb2 as base_pb2
+from logic._grpc.user import User_db_pb2 as pb2
+from logic._grpc.user import User_db_pb2_grpc as pb2_grpc
+from logic._grpc.base import base_pb2 as base_pb2
 from grpc_manager import GRPC_Manager
 
-class GRPC_User(GRPC_Manager):
+class GRPC_User():
     def __new__(cls):
         if not hasattr(cls, "_instance"):
             cls._instance = super().__new__(cls)
-            cls._instance.stub = pb2_grpc.UserTraffic(cls._instance.channel)
+            cls._instance.manager = GRPC_Manager()
+            cls._instance.stub = pb2_grpc.UserTrafficStub(cls._instance.manager.channel)
+        return cls._instance
 
     def __init__(self):
+        self.manager:GRPC_Manager
         self.stub:pb2_grpc.UserTrafficStub
 
     def user_create(self, email:str, password:str) -> base_pb2.Response:
-        user = pb2.User(email, password)
+        user = pb2.User(user_email=email, user_password=password)
         return self.stub.user_create(user)
         
     def user_delete(self, token:str) -> base_pb2.Response:
