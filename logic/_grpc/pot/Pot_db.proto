@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "logic/grpc/base/base.proto";
+
+service PotTraffic {
+    rpc pot_create(Pot) returns (Response);
+    rpc pot_delete(CertifiedPot) returns (Response);
+    rpc pot_update(CertifiedPot) returns (Response);
+    rpc pot_read(AccessToken) returns (Response);
+    rpc pot_read_list(AccessToken) returns (stream Pot);
+}
+
+service UserPotTraffic {
+    rpc user_add_pot(CertifiedPot) returns (Response);
+    rpc user_remove_pot(CertifiedPot) returns (Response);
+    rpc user_read_pot_list(AccessToken) returns (stream Pot);
+}
+
+message Pot {
+    string pot_code = 1;
+    optional string pot_name = 2;
+}
+
+message CertifiedPot {
+    AccessToken access_token = 1;
+    Pot pot = 2;
+}
