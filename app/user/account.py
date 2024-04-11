@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Response as HTTP_Response, Request
 from pydantic import BaseModel
 from ...logic._grpc.grpc_user import GRPC_User
-from ...logic._grpc.base import base_pb2
-from ...logic._grpc.user import User_db_pb2
+from ...logic._grpc.protos import base_pb2, User_db_pb2
  
 router = APIRouter(
     prefix="/account"

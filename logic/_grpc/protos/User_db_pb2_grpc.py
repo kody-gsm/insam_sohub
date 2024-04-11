@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from logic._grpc.base import base_pb2 as logic_dot_grpc_dot_base_dot_base__pb2
-from logic._grpc.user import User_db_pb2 as logic_dot_grpc_dot_user_dot_User__db__pb2
+import User_db_pb2 as User__db__pb2
+import base_pb2 as base__pb2
 
 
 class UserTrafficStub(object):
@@ -17,28 +17,33 @@ class UserTrafficStub(object):
         """
         self.user_create = channel.unary_unary(
                 '/UserTraffic/user_create',
-                request_serializer=logic_dot_grpc_dot_user_dot_User__db__pb2.User.SerializeToString,
-                response_deserializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
+                request_serializer=User__db__pb2.User.SerializeToString,
+                response_deserializer=base__pb2.Response.FromString,
                 )
         self.user_delete = channel.unary_unary(
                 '/UserTraffic/user_delete',
-                request_serializer=logic_dot_grpc_dot_base_dot_base__pb2.AccessToken.SerializeToString,
-                response_deserializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
-                )
-        self.user_update = channel.unary_unary(
-                '/UserTraffic/user_update',
-                request_serializer=logic_dot_grpc_dot_base_dot_base__pb2.AccessToken.SerializeToString,
-                response_deserializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
+                request_serializer=User__db__pb2.EditUser.SerializeToString,
+                response_deserializer=base__pb2.Response.FromString,
                 )
         self.user_login = channel.unary_unary(
                 '/UserTraffic/user_login',
-                request_serializer=logic_dot_grpc_dot_user_dot_User__db__pb2.User.SerializeToString,
-                response_deserializer=logic_dot_grpc_dot_user_dot_User__db__pb2.JWTToken.FromString,
+                request_serializer=User__db__pb2.User.SerializeToString,
+                response_deserializer=User__db__pb2.ResponseJwtToken.FromString,
                 )
         self.refresh_token = channel.unary_unary(
                 '/UserTraffic/refresh_token',
-                request_serializer=logic_dot_grpc_dot_base_dot_base__pb2.AccessToken.SerializeToString,
-                response_deserializer=logic_dot_grpc_dot_user_dot_User__db__pb2.RefreshToken.FromString,
+                request_serializer=User__db__pb2.RefreshToken.SerializeToString,
+                response_deserializer=User__db__pb2.ResponseAccessToken.FromString,
+                )
+        self.email_find = channel.unary_unary(
+                '/UserTraffic/email_find',
+                request_serializer=User__db__pb2.User.SerializeToString,
+                response_deserializer=base__pb2.Response.FromString,
+                )
+        self.password_update = channel.unary_unary(
+                '/UserTraffic/password_update',
+                request_serializer=User__db__pb2.User.SerializeToString,
+                response_deserializer=base__pb2.Response.FromString,
                 )
 
 
@@ -57,12 +62,6 @@ class UserTrafficServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def user_update(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def user_login(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -75,33 +74,50 @@ class UserTrafficServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def email_find(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def password_update(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UserTrafficServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'user_create': grpc.unary_unary_rpc_method_handler(
                     servicer.user_create,
-                    request_deserializer=logic_dot_grpc_dot_user_dot_User__db__pb2.User.FromString,
-                    response_serializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.SerializeToString,
+                    request_deserializer=User__db__pb2.User.FromString,
+                    response_serializer=base__pb2.Response.SerializeToString,
             ),
             'user_delete': grpc.unary_unary_rpc_method_handler(
                     servicer.user_delete,
-                    request_deserializer=logic_dot_grpc_dot_base_dot_base__pb2.AccessToken.FromString,
-                    response_serializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.SerializeToString,
-            ),
-            'user_update': grpc.unary_unary_rpc_method_handler(
-                    servicer.user_update,
-                    request_deserializer=logic_dot_grpc_dot_base_dot_base__pb2.AccessToken.FromString,
-                    response_serializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.SerializeToString,
+                    request_deserializer=User__db__pb2.EditUser.FromString,
+                    response_serializer=base__pb2.Response.SerializeToString,
             ),
             'user_login': grpc.unary_unary_rpc_method_handler(
                     servicer.user_login,
-                    request_deserializer=logic_dot_grpc_dot_user_dot_User__db__pb2.User.FromString,
-                    response_serializer=logic_dot_grpc_dot_user_dot_User__db__pb2.JWTToken.SerializeToString,
+                    request_deserializer=User__db__pb2.User.FromString,
+                    response_serializer=User__db__pb2.ResponseJwtToken.SerializeToString,
             ),
             'refresh_token': grpc.unary_unary_rpc_method_handler(
                     servicer.refresh_token,
-                    request_deserializer=logic_dot_grpc_dot_base_dot_base__pb2.AccessToken.FromString,
-                    response_serializer=logic_dot_grpc_dot_user_dot_User__db__pb2.RefreshToken.SerializeToString,
+                    request_deserializer=User__db__pb2.RefreshToken.FromString,
+                    response_serializer=User__db__pb2.ResponseAccessToken.SerializeToString,
+            ),
+            'email_find': grpc.unary_unary_rpc_method_handler(
+                    servicer.email_find,
+                    request_deserializer=User__db__pb2.User.FromString,
+                    response_serializer=base__pb2.Response.SerializeToString,
+            ),
+            'password_update': grpc.unary_unary_rpc_method_handler(
+                    servicer.password_update,
+                    request_deserializer=User__db__pb2.User.FromString,
+                    response_serializer=base__pb2.Response.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -125,8 +141,8 @@ class UserTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserTraffic/user_create',
-            logic_dot_grpc_dot_user_dot_User__db__pb2.User.SerializeToString,
-            logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
+            User__db__pb2.User.SerializeToString,
+            base__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -142,25 +158,8 @@ class UserTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserTraffic/user_delete',
-            logic_dot_grpc_dot_base_dot_base__pb2.AccessToken.SerializeToString,
-            logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def user_update(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/UserTraffic/user_update',
-            logic_dot_grpc_dot_base_dot_base__pb2.AccessToken.SerializeToString,
-            logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
+            User__db__pb2.EditUser.SerializeToString,
+            base__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -176,8 +175,8 @@ class UserTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserTraffic/user_login',
-            logic_dot_grpc_dot_user_dot_User__db__pb2.User.SerializeToString,
-            logic_dot_grpc_dot_user_dot_User__db__pb2.JWTToken.FromString,
+            User__db__pb2.User.SerializeToString,
+            User__db__pb2.ResponseJwtToken.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -193,7 +192,41 @@ class UserTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserTraffic/refresh_token',
-            logic_dot_grpc_dot_base_dot_base__pb2.AccessToken.SerializeToString,
-            logic_dot_grpc_dot_user_dot_User__db__pb2.RefreshToken.FromString,
+            User__db__pb2.RefreshToken.SerializeToString,
+            User__db__pb2.ResponseAccessToken.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def email_find(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/UserTraffic/email_find',
+            User__db__pb2.User.SerializeToString,
+            base__pb2.Response.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def password_update(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/UserTraffic/password_update',
+            User__db__pb2.User.SerializeToString,
+            base__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

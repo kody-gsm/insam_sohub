@@ -1,4 +1,4 @@
-from logic.grpc.base import base_pb2 as _base_pb2
+import base_pb2 as _base_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
@@ -12,6 +12,14 @@ class Pot(_message.Message):
     pot_code: str
     pot_name: str
     def __init__(self, pot_code: _Optional[str] = ..., pot_name: _Optional[str] = ...) -> None: ...
+
+class ResponsePot(_message.Message):
+    __slots__ = ("pot", "response")
+    POT_FIELD_NUMBER: _ClassVar[int]
+    RESPONSE_FIELD_NUMBER: _ClassVar[int]
+    pot: Pot
+    response: _base_pb2.Response
+    def __init__(self, pot: _Optional[_Union[Pot, _Mapping]] = ..., response: _Optional[_Union[_base_pb2.Response, _Mapping]] = ...) -> None: ...
 
 class CertifiedPot(_message.Message):
     __slots__ = ("access_token", "pot")

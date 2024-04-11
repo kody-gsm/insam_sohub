@@ -2,9 +2,9 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from logic._grpc.base import base_pb2 as logic_dot_grpc_dot_base_dot_base__pb2
-from logic._grpc.image import Image_db_pb2 as logic_dot_grpc_dot_image_dot_Image__db__pb2
-from logic._grpc.pot import Pot_db_pb2 as logic_dot_grpc_dot_pot_dot_Pot__db__pb2
+import Image_db_pb2 as Image__db__pb2
+import Pot_db_pb2 as Pot__db__pb2
+import base_pb2 as base__pb2
 
 
 class ImageTrafficStub(object):
@@ -18,23 +18,23 @@ class ImageTrafficStub(object):
         """
         self.image_create = channel.unary_unary(
                 '/ImageTraffic/image_create',
-                request_serializer=logic_dot_grpc_dot_image_dot_Image__db__pb2.CertifiedImage.SerializeToString,
-                response_deserializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
+                request_serializer=Image__db__pb2.CertifiedImage.SerializeToString,
+                response_deserializer=base__pb2.Response.FromString,
                 )
         self.image_delete = channel.unary_unary(
                 '/ImageTraffic/image_delete',
-                request_serializer=logic_dot_grpc_dot_image_dot_Image__db__pb2.CertifiedImage.SerializeToString,
-                response_deserializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
+                request_serializer=Image__db__pb2.CertifiedImage.SerializeToString,
+                response_deserializer=base__pb2.Response.FromString,
                 )
         self.image_read = channel.unary_unary(
                 '/ImageTraffic/image_read',
-                request_serializer=logic_dot_grpc_dot_image_dot_Image__db__pb2.CertifiedImage.SerializeToString,
-                response_deserializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
+                request_serializer=Image__db__pb2.CertifiedImage.SerializeToString,
+                response_deserializer=Image__db__pb2.ResponseImage.FromString,
                 )
         self.image_read_list = channel.unary_stream(
                 '/ImageTraffic/image_read_list',
-                request_serializer=logic_dot_grpc_dot_pot_dot_Pot__db__pb2.CertifiedPot.SerializeToString,
-                response_deserializer=logic_dot_grpc_dot_image_dot_Image__db__pb2.Image.FromString,
+                request_serializer=Pot__db__pb2.CertifiedPot.SerializeToString,
+                response_deserializer=Image__db__pb2.ResponseImage.FromString,
                 )
 
 
@@ -70,23 +70,23 @@ def add_ImageTrafficServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'image_create': grpc.unary_unary_rpc_method_handler(
                     servicer.image_create,
-                    request_deserializer=logic_dot_grpc_dot_image_dot_Image__db__pb2.CertifiedImage.FromString,
-                    response_serializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.SerializeToString,
+                    request_deserializer=Image__db__pb2.CertifiedImage.FromString,
+                    response_serializer=base__pb2.Response.SerializeToString,
             ),
             'image_delete': grpc.unary_unary_rpc_method_handler(
                     servicer.image_delete,
-                    request_deserializer=logic_dot_grpc_dot_image_dot_Image__db__pb2.CertifiedImage.FromString,
-                    response_serializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.SerializeToString,
+                    request_deserializer=Image__db__pb2.CertifiedImage.FromString,
+                    response_serializer=base__pb2.Response.SerializeToString,
             ),
             'image_read': grpc.unary_unary_rpc_method_handler(
                     servicer.image_read,
-                    request_deserializer=logic_dot_grpc_dot_image_dot_Image__db__pb2.CertifiedImage.FromString,
-                    response_serializer=logic_dot_grpc_dot_base_dot_base__pb2.Response.SerializeToString,
+                    request_deserializer=Image__db__pb2.CertifiedImage.FromString,
+                    response_serializer=Image__db__pb2.ResponseImage.SerializeToString,
             ),
             'image_read_list': grpc.unary_stream_rpc_method_handler(
                     servicer.image_read_list,
-                    request_deserializer=logic_dot_grpc_dot_pot_dot_Pot__db__pb2.CertifiedPot.FromString,
-                    response_serializer=logic_dot_grpc_dot_image_dot_Image__db__pb2.Image.SerializeToString,
+                    request_deserializer=Pot__db__pb2.CertifiedPot.FromString,
+                    response_serializer=Image__db__pb2.ResponseImage.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -110,8 +110,8 @@ class ImageTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ImageTraffic/image_create',
-            logic_dot_grpc_dot_image_dot_Image__db__pb2.CertifiedImage.SerializeToString,
-            logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
+            Image__db__pb2.CertifiedImage.SerializeToString,
+            base__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -127,8 +127,8 @@ class ImageTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ImageTraffic/image_delete',
-            logic_dot_grpc_dot_image_dot_Image__db__pb2.CertifiedImage.SerializeToString,
-            logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
+            Image__db__pb2.CertifiedImage.SerializeToString,
+            base__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -144,8 +144,8 @@ class ImageTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ImageTraffic/image_read',
-            logic_dot_grpc_dot_image_dot_Image__db__pb2.CertifiedImage.SerializeToString,
-            logic_dot_grpc_dot_base_dot_base__pb2.Response.FromString,
+            Image__db__pb2.CertifiedImage.SerializeToString,
+            Image__db__pb2.ResponseImage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -161,7 +161,7 @@ class ImageTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/ImageTraffic/image_read_list',
-            logic_dot_grpc_dot_pot_dot_Pot__db__pb2.CertifiedPot.SerializeToString,
-            logic_dot_grpc_dot_image_dot_Image__db__pb2.Image.FromString,
+            Pot__db__pb2.CertifiedPot.SerializeToString,
+            Image__db__pb2.ResponseImage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
