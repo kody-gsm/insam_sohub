@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "base.proto";
+import "logic/_grpc/protos/base.proto";
 
 service UserTraffic {
     rpc user_create(User) returns (Response);

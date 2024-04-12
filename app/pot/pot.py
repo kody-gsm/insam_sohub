@@ -1,5 +1,5 @@
 from fastapi import APIRouter, WebSocket
-from ...logic._grpc.grpc_pot import GRPC_Pot
+from logic._grpc.grpc_pot import GRPC_Pot
 
 router = APIRouter(
     prefix=""

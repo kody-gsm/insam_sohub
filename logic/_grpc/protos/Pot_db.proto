@@ -1,7 +1,6 @@
 syntax = "proto3";
 
-import "base.proto";
-
+import "logic/_grpc/protos/base.proto";
 service PotTraffic {
     rpc pot_create(Pot) returns (Response);
     rpc pot_delete(CertifiedPot) returns (Response);

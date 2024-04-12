@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import User_db_pb2 as User__db__pb2
-import base_pb2 as base__pb2
+from logic._grpc.protos import User_db_pb2 as logic_dot___grpc_dot_protos_dot_User__db__pb2
+from logic._grpc.protos import base_pb2 as logic_dot___grpc_dot_protos_dot_base__pb2
 
 
 class UserTrafficStub(object):
@@ -17,33 +17,33 @@ class UserTrafficStub(object):
         """
         self.user_create = channel.unary_unary(
                 '/UserTraffic/user_create',
-                request_serializer=User__db__pb2.User.SerializeToString,
-                response_deserializer=base__pb2.Response.FromString,
+                request_serializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.User.SerializeToString,
+                response_deserializer=logic_dot___grpc_dot_protos_dot_base__pb2.Response.FromString,
                 )
         self.user_delete = channel.unary_unary(
                 '/UserTraffic/user_delete',
-                request_serializer=User__db__pb2.EditUser.SerializeToString,
-                response_deserializer=base__pb2.Response.FromString,
+                request_serializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.EditUser.SerializeToString,
+                response_deserializer=logic_dot___grpc_dot_protos_dot_base__pb2.Response.FromString,
                 )
         self.user_login = channel.unary_unary(
                 '/UserTraffic/user_login',
-                request_serializer=User__db__pb2.User.SerializeToString,
-                response_deserializer=User__db__pb2.ResponseJwtToken.FromString,
+                request_serializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.User.SerializeToString,
+                response_deserializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.ResponseJwtToken.FromString,
                 )
         self.refresh_token = channel.unary_unary(
                 '/UserTraffic/refresh_token',
-                request_serializer=User__db__pb2.RefreshToken.SerializeToString,
-                response_deserializer=User__db__pb2.ResponseAccessToken.FromString,
+                request_serializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.RefreshToken.SerializeToString,
+                response_deserializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.ResponseAccessToken.FromString,
                 )
         self.email_find = channel.unary_unary(
                 '/UserTraffic/email_find',
-                request_serializer=User__db__pb2.User.SerializeToString,
-                response_deserializer=base__pb2.Response.FromString,
+                request_serializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.User.SerializeToString,
+                response_deserializer=logic_dot___grpc_dot_protos_dot_base__pb2.Response.FromString,
                 )
         self.password_update = channel.unary_unary(
                 '/UserTraffic/password_update',
-                request_serializer=User__db__pb2.User.SerializeToString,
-                response_deserializer=base__pb2.Response.FromString,
+                request_serializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.User.SerializeToString,
+                response_deserializer=logic_dot___grpc_dot_protos_dot_base__pb2.Response.FromString,
                 )
 
 
@@ -91,33 +91,33 @@ def add_UserTrafficServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'user_create': grpc.unary_unary_rpc_method_handler(
                     servicer.user_create,
-                    request_deserializer=User__db__pb2.User.FromString,
-                    response_serializer=base__pb2.Response.SerializeToString,
+                    request_deserializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.User.FromString,
+                    response_serializer=logic_dot___grpc_dot_protos_dot_base__pb2.Response.SerializeToString,
             ),
             'user_delete': grpc.unary_unary_rpc_method_handler(
                     servicer.user_delete,
-                    request_deserializer=User__db__pb2.EditUser.FromString,
-                    response_serializer=base__pb2.Response.SerializeToString,
+                    request_deserializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.EditUser.FromString,
+                    response_serializer=logic_dot___grpc_dot_protos_dot_base__pb2.Response.SerializeToString,
             ),
             'user_login': grpc.unary_unary_rpc_method_handler(
                     servicer.user_login,
-                    request_deserializer=User__db__pb2.User.FromString,
-                    response_serializer=User__db__pb2.ResponseJwtToken.SerializeToString,
+                    request_deserializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.User.FromString,
+                    response_serializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.ResponseJwtToken.SerializeToString,
             ),
             'refresh_token': grpc.unary_unary_rpc_method_handler(
                     servicer.refresh_token,
-                    request_deserializer=User__db__pb2.RefreshToken.FromString,
-                    response_serializer=User__db__pb2.ResponseAccessToken.SerializeToString,
+                    request_deserializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.RefreshToken.FromString,
+                    response_serializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.ResponseAccessToken.SerializeToString,
             ),
             'email_find': grpc.unary_unary_rpc_method_handler(
                     servicer.email_find,
-                    request_deserializer=User__db__pb2.User.FromString,
-                    response_serializer=base__pb2.Response.SerializeToString,
+                    request_deserializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.User.FromString,
+                    response_serializer=logic_dot___grpc_dot_protos_dot_base__pb2.Response.SerializeToString,
             ),
             'password_update': grpc.unary_unary_rpc_method_handler(
                     servicer.password_update,
-                    request_deserializer=User__db__pb2.User.FromString,
-                    response_serializer=base__pb2.Response.SerializeToString,
+                    request_deserializer=logic_dot___grpc_dot_protos_dot_User__db__pb2.User.FromString,
+                    response_serializer=logic_dot___grpc_dot_protos_dot_base__pb2.Response.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -141,8 +141,8 @@ class UserTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserTraffic/user_create',
-            User__db__pb2.User.SerializeToString,
-            base__pb2.Response.FromString,
+            logic_dot___grpc_dot_protos_dot_User__db__pb2.User.SerializeToString,
+            logic_dot___grpc_dot_protos_dot_base__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -158,8 +158,8 @@ class UserTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserTraffic/user_delete',
-            User__db__pb2.EditUser.SerializeToString,
-            base__pb2.Response.FromString,
+            logic_dot___grpc_dot_protos_dot_User__db__pb2.EditUser.SerializeToString,
+            logic_dot___grpc_dot_protos_dot_base__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -175,8 +175,8 @@ class UserTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserTraffic/user_login',
-            User__db__pb2.User.SerializeToString,
-            User__db__pb2.ResponseJwtToken.FromString,
+            logic_dot___grpc_dot_protos_dot_User__db__pb2.User.SerializeToString,
+            logic_dot___grpc_dot_protos_dot_User__db__pb2.ResponseJwtToken.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -192,8 +192,8 @@ class UserTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserTraffic/refresh_token',
-            User__db__pb2.RefreshToken.SerializeToString,
-            User__db__pb2.ResponseAccessToken.FromString,
+            logic_dot___grpc_dot_protos_dot_User__db__pb2.RefreshToken.SerializeToString,
+            logic_dot___grpc_dot_protos_dot_User__db__pb2.ResponseAccessToken.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -209,8 +209,8 @@ class UserTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserTraffic/email_find',
-            User__db__pb2.User.SerializeToString,
-            base__pb2.Response.FromString,
+            logic_dot___grpc_dot_protos_dot_User__db__pb2.User.SerializeToString,
+            logic_dot___grpc_dot_protos_dot_base__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -226,7 +226,7 @@ class UserTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/UserTraffic/password_update',
-            User__db__pb2.User.SerializeToString,
-            base__pb2.Response.FromString,
+            logic_dot___grpc_dot_protos_dot_User__db__pb2.User.SerializeToString,
+            logic_dot___grpc_dot_protos_dot_base__pb2.Response.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
