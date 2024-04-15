@@ -1,5 +1,5 @@
-from protos import base_pb2, Pot_db_pb2_grpc, Pot_db_pb2 as pot_pb2
-from grpc_manager import GRPC_Manager
+from logic._grpc.protos import base_pb2, Pot_db_pb2_grpc, Pot_db_pb2 as pot_pb2
+from logic._grpc.grpc_manager import GRPC_Manager
 from typing import Generator
 
 class GRPC_UserPot(GRPC_Manager):
@@ -25,7 +25,7 @@ class GRPC_UserPot(GRPC_Manager):
         certified_pot = pot_pb2.CertifiedPot(access_token, pot)
         return self.stub.user_remove_pot(certified_pot)
     
-    def user_read_pot_list(self, token:str) -> Generator[pot_pb2.Pot]:
+    def user_read_pot_list(self, token:str):
         access_token = base_pb2.AccessToken(token)
         for pot in self.stub.user_read_pot_list(access_token):
             yield pot

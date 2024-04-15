@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Request, Response as HTTP_Response, WebSocket
 from pydantic import BaseModel
-from ...logic._grpc.grpc_user_pot import GRPC_UserPot
-from ...logic._grpc.grpc_pot import GRPC_Pot
-from ...logic._grpc.protos import base_pb2
-from ...logic._grpc.grpc_pot import GRPC_Pot
-from ..pot.pot import pot_connections
+from logic._grpc.grpc_user_pot import GRPC_UserPot
+from logic._grpc.grpc_pot import GRPC_Pot
+from logic._grpc.protos import base_pb2
+from logic._grpc.grpc_pot import GRPC_Pot
+from app.pot.pot import pot_connections
 import time
 
 router =APIRouter(

@@ -1,5 +1,5 @@
-from protos import base_pb2, Image_db_pb2 as image_pb2, Image_db_pb2_grpc, Pot_db_pb2 as pot_pb2
-from grpc_manager import GRPC_Manager
+from logic._grpc.protos import base_pb2, Image_db_pb2 as image_pb2, Image_db_pb2_grpc, Pot_db_pb2 as pot_pb2
+from logic._grpc.grpc_manager import GRPC_Manager
 
 class GRPC_Image(GRPC_Manager):
     def __new__(cls):

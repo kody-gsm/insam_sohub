@@ -1,7 +1,7 @@
 from fastapi import APIRouter, WebSocket, Request
-from ...logic._grpc.grpc_pot import GRPC_Pot
-from ...logic._grpc.protos import base_pb2
-from ..pot.pot import pot_connections
+from logic._grpc.grpc_pot import GRPC_Pot
+from logic._grpc.protos import base_pb2
+from app.pot.pot import pot_connections
 import time
 
 router = APIRouter(
