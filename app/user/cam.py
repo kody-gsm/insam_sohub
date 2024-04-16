@@ -1,6 +1,7 @@
 from fastapi import APIRouter, WebSocket, Request
 from logic._grpc.grpc_pot import GRPC_Pot
 from logic._grpc.protos import base_pb2
+from logic._grpc.protos import Pot_db_pb2
 from app.pot.pot import pot_connections
 import time
 
@@ -11,12 +12,11 @@ router = APIRouter(
 
 @router.websocket("/{pot_code}")
 async def connect_pot(pot_code:str, request:Request, websocket:WebSocket):
-    grpc_response:base_pb2.Response = GRPC_Pot.pot_read(request.cookies["access_token"])
-    if not grpc_response.check:
+    grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(request.cookies["access_token"])
+    if int(grpc_response.response.http_code) == 403:
         raise "권한 x"
     if not pot_code in pot_connections:
         raise "화분 연결 x"
-    GRPC_Pot.pot_create(pot_code=websocket.headers["pot_code"])
     await websocket.accept()
 
     async def get_cam(websocket:WebSocket):

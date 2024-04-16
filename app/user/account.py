@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response as HTTP_Response, Request
+from fastapi import APIRouter, Response as HTTP_Response, Request, Body
 from pydantic import BaseModel
 from logic._grpc.grpc_user import GRPC_User
 from logic._grpc.protos import base_pb2, User_db_pb2
@@ -13,20 +13,19 @@ class UserBody(BaseModel):
 
 @router.post("/sign-up")
 def post_sign_up(body:UserBody):
-    response:base_pb2.Response = GRPC_User.user_create(body.email, body.password)
-    if response.check:
-        return HTTP_Response({"message":"success"}, 200)
-    return HTTP_Response({"message":"이미 유저가 존재함"}, 400)
+    print(body.password)
+    response:base_pb2.Response = GRPC_User().user_create(body.email, body.password)
+    return HTTP_Response(status_code=int(response.http_code))
 
 @router.post("/login")
 def post_login(body:UserBody):
-    token:User_db_pb2.JWTToken = GRPC_User.user_login(body.email, body.password)
-    if token.access:
+    token:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(body.email, body.password)
+    if token.access_token:
         response = HTTP_Response({"message":"success",
-                              "refresh_token":token.refresh}, 200)
-        response.set_cookie("access_token", token.access)
+                              "refresh_token":token.refresh_token.refresh}, int(status_code=token.response.http_code))
+        response.set_cookie("access_token", token.access_token.access)
         return response
-    return HTTP_Response({"message":"이미 유저가 존재함"}, 400)
+    return HTTP_Response(status_code=int(token.response.http_code))
 
 
 # ? 인증 만들 생각이였는데 뭐지

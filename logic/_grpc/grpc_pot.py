@@ -29,7 +29,7 @@ class GRPC_Pot(GRPC_Manager):
         certified_pot = pot_pb2.CertifiedPot(access_token, pot)
         return self.stub.pot_update(certified_pot)
     
-    def pot_read(self, token:str) -> base_pb2.Response:
+    def pot_read(self, token:str):
         access_token = base_pb2.AccessToken(token)
         return self.stub.pot_read(access_token)
     
