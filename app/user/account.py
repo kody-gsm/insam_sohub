@@ -13,19 +13,24 @@ class UserBody(BaseModel):
 
 @router.post("/sign-up")
 def post_sign_up(body:UserBody):
-    print(body.password)
-    response:base_pb2.Response = GRPC_User().user_create(body.email, body.password)
-    return HTTP_Response(status_code=int(response.http_code))
+    try:
+        response:base_pb2.Response = GRPC_User().user_create(body.email, body.password)
+        return HTTP_Response(status_code=int(response.http_code))
+    except:
+        return HTTP_Response(status_code=404)
 
 @router.post("/login")
 def post_login(body:UserBody):
-    token:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(body.email, body.password)
-    if token.access_token:
-        response = HTTP_Response({"message":"success",
-                              "refresh_token":token.refresh_token.refresh}, int(status_code=token.response.http_code))
-        response.set_cookie("access_token", token.access_token.access)
-        return response
-    return HTTP_Response(status_code=int(token.response.http_code))
+    try:
+        token:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(body.email, body.password)
+        if token.access_token:
+            response = HTTP_Response({"message":"success",
+                                "refresh_token":token.refresh_token.refresh}, int(status_code=token.response.http_code))
+            response.set_cookie("access_token", token.access_token.access)
+            return response
+        return HTTP_Response(status_code=int(token.response.http_code))
+    except:
+        return HTTP_Response(status_code=404)
 
 
 # ? 인증 만들 생각이였는데 뭐지
