@@ -13,8 +13,9 @@ router = APIRouter(
 @router.websocket("/{pot_code}")
 async def connect_pot(pot_code:str, request:Request, websocket:WebSocket):
     grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(request.cookies["access_token"])
-    if int(grpc_response.response.http_code) == 403:
-        raise "권한 x"
+    status_code, message = grpc_response.response.http_code.split("/")
+    if message:
+        raise message
     if not pot_code in pot_connections:
         raise "화분 연결 x"
     await websocket.accept()
