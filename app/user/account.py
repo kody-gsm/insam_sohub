@@ -26,7 +26,7 @@ def post_sign_up(body:UserBody):
 @router.post("/login")
 def post_login(body:UserBody):
     token:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(body.email, body.password)
-    htc = response.http_code.split("/")
+    htc = token.response.http_code.split("/")
     status_code = htc[0]
     if len(htc) == 2:
         message = htc[1]
