@@ -5,10 +5,10 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Response(_message.Message):
-    __slots__ = ("check",)
-    CHECK_FIELD_NUMBER: _ClassVar[int]
-    check: bool
-    def __init__(self, check: bool = ...) -> None: ...
+    __slots__ = ("http_code",)
+    HTTP_CODE_FIELD_NUMBER: _ClassVar[int]
+    http_code: str
+    def __init__(self, http_code: _Optional[str] = ...) -> None: ...
 
 class AccessToken(_message.Message):
     __slots__ = ("access",)

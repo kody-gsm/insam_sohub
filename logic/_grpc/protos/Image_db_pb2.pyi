@@ -1,6 +1,5 @@
-from google.protobuf import timestamp_pb2 as _timestamp_pb2
-from logic.grpc.base import base_pb2 as _base_pb2
-from logic.grpc.pot import Pot_db_pb2 as _Pot_db_pb2
+from logic._grpc.protos import base_pb2 as _base_pb2
+from logic._grpc.protos import Pot_db_pb2 as _Pot_db_pb2
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
@@ -14,8 +13,16 @@ class Image(_message.Message):
     IMAGE_TIME_FIELD_NUMBER: _ClassVar[int]
     image_id: str
     image_file: str
-    image_time: _timestamp_pb2.Timestamp
-    def __init__(self, image_id: _Optional[str] = ..., image_file: _Optional[str] = ..., image_time: _Optional[_Union[_timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
+    image_time: str
+    def __init__(self, image_id: _Optional[str] = ..., image_file: _Optional[str] = ..., image_time: _Optional[str] = ...) -> None: ...
+
+class ResponseImage(_message.Message):
+    __slots__ = ("image", "response")
+    IMAGE_FIELD_NUMBER: _ClassVar[int]
+    RESPONSE_FIELD_NUMBER: _ClassVar[int]
+    image: Image
+    response: _base_pb2.Response
+    def __init__(self, image: _Optional[_Union[Image, _Mapping]] = ..., response: _Optional[_Union[_base_pb2.Response, _Mapping]] = ...) -> None: ...
 
 class CertifiedImage(_message.Message):
     __slots__ = ("access_token", "pot", "image")

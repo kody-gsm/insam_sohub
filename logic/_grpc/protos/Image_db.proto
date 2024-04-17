@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+import "logic/_grpc/protos/base.proto";
+import "logic/_grpc/protos/Pot_db.proto";
+
+service ImageTraffic {
+    rpc image_create(CertifiedImage) returns (Response);
+    rpc image_delete(CertifiedImage) returns (Response);
+    rpc image_read(CertifiedImage) returns (ResponseImage);
+    rpc image_read_list(CertifiedPot) returns (stream ResponseImage);
+}
+
+message Image {
+    string image_id = 1;
+    string image_file = 2;
+    string image_time = 3;
+}
+
+message ResponseImage {
+    Image image = 1;
+    Response response = 2;
+}
+
+message CertifiedImage {
+    AccessToken access_token = 1;
+    Pot pot = 2;
+    Image image = 3;
+}

@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Request, Response as HTTP_Response, WebSocket
 from pydantic import BaseModel
-from ...logic._grpc.grpc_user_pot import GRPC_UserPot
-from ...logic._grpc.grpc_pot import GRPC_Pot
-from ...logic._grpc.base import base_pb2
-from ...logic._grpc.grpc_pot import GRPC_Pot
-from ..pot.pot import pot_connections
+from logic._grpc.grpc_user_pot import GRPC_UserPot
+from logic._grpc.grpc_pot import GRPC_Pot
+from logic._grpc.protos import base_pb2
+from logic._grpc.protos import Pot_db_pb2
+from app.pot.pot import pot_connections
 import time
 
 router =APIRouter(
@@ -17,63 +17,69 @@ class PotBody(BaseModel):
 
 @router.post("/add")
 def user_add_pot(request:Request, body:PotBody):
-    grpc_response:base_pb2.Response = GRPC_UserPot.user_add_pot(token=request.cookies["access_token"], 
+    grpc_response:base_pb2.Response = GRPC_UserPot().user_add_pot(token=request.cookies["access_token"], 
                               pot_code=body.code, 
                               pot_name=body.name)
-    if not grpc_response.check:
-        return HTTP_Response({"message":"fail"}, 400)
-    return HTTP_Response({"message":"success"}, 200)
+    htc = grpc_response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
+        return HTTP_Response(content={"message":message}, status_code=int(status_code))
+    return HTTP_Response(status_code=int(status_code))
+
 
 @router.post("/add")
 def user_update_pot(request:Request, body:PotBody):
-    grpc_response:base_pb2.Response = GRPC_Pot.pot_update(token=request.cookies["access_token"], 
+    grpc_response:base_pb2.Response = GRPC_Pot().pot_update(token=request.cookies["access_token"], 
                               pot_code=body.code, 
                               pot_name=body.name)
-    if not grpc_response.check:
-        return HTTP_Response({"message":"fail"}, 400)
-    return HTTP_Response({"message":"success"}, 200)
+    htc = grpc_response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
+        return HTTP_Response(content={"message":message}, status_code=int(status_code))
+    return HTTP_Response(status_code=int(status_code))
+
 
 @router.post("/remove")
 def user_remove_pot(request:Request, body:PotBody):
-    grpc_response:base_pb2.Response = GRPC_UserPot.user_remove_pot(token=request.cookies["access_token"], 
+    grpc_response:base_pb2.Response = GRPC_UserPot().user_remove_pot(token=request.cookies["access_token"], 
                               pot_code=body.code, 
                               pot_name=body.name)
-    if not grpc_response.check:
-        return HTTP_Response({"message":"fail"}, 400)
-    return HTTP_Response({"message":"success"}, 200)
+    htc = grpc_response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
+        return HTTP_Response(content={"message":message}, status_code=int(status_code))
+    return HTTP_Response(status_code=int(status_code))
 
 @router.get("/read")
 def user_remove_pot(request:Request):
-    grpc_response = GRPC_UserPot.user_read_pot_list(token=request.cookies["access_token"])
-    
-    # 예외처리 x
-    # if not grpc_response:
-    #     return HTTP_Response({"message":"fail"}, 400)
+    grpc_response = GRPC_UserPot().user_read_pot_list(token=request.cookies["access_token"])
+    def r(li, pot:Pot_db_pb2.ResponsePot):
+        htc = grpc_response.http_code.split("/")
+        status_code = htc[0]
+        if len(htc) == 2:
+            message = htc[1]
+            return li
+        return li + [{"pot_code":pot.pot.pot_code, "pot_name":pot.pot.pot_name}]
+    from functools import reduce
+    return HTTP_Response(content=reduce(r, grpc_response, []))
+        
 
-    return HTTP_Response({"pot":list(grpc_response)}, 200)
-
-async def get_info(websocket:WebSocket):
-    await websocket.send("cam")
+async def get_info(websocket:WebSocket, func_code:str):
+    await websocket.send(func_code)
     return await websocket.receive_text()
 
-@router.websocket("/cam/{pot_code}")
-async def connect_pot(pot_code:str, request:Request, websocket:WebSocket):
-    grpc_response:base_pb2.Response = GRPC_Pot.pot_read(request.cookies["access_token"])
-    if not grpc_response.check:
-        raise "권한 x"
+@router.get("/{pot_code}")
+async def pot_info(request:Request, websocket:WebSocket, pot_code:str):
+    grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(request.cookies["access_token"])
+    htc = grpc_response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
+        raise message
     if not pot_code in pot_connections:
         raise "화분 연결 x"
-    await websocket.accept()
     while True:
-        await websocket.send(get_info(pot_connections[pot_code]))
-        time.sleep(1)
-
-@router.get("/{func_code}/{pot_code}")
-async def pot_info(request:Request, websocket:WebSocket, func_code:str, pot_code:str):
-    grpc_response:base_pb2.Response = GRPC_Pot.pot_read(request.cookies["access_token"])
-    if not grpc_response.check:
-        raise "권한 x"
-    if not pot_code in pot_connections:
-        raise "화분 연결 x"
-    socket_resoponse = await websocket.send(get_info(pot_connections[pot_code]))
-    return HTTP_Response({"info":socket_resoponse}, 200)
+        await websocket.send(get_info(pot_connections[pot_code], await websocket.receive_text()))
