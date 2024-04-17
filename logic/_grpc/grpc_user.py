@@ -18,21 +18,21 @@ class GRPC_User():
         return self.stub.user_create(user)
         
     def user_delete(self, token:str) -> base_pb2.Response:
-        access_token = base_pb2.AccessToken(token)
+        access_token = base_pb2.AccessToken(access=token)
         return self.stub.user_delete(access_token)
         
     def email_find(self, email:str) -> base_pb2.Response:
-        user = user_pb2.User(email, None)
+        user = user_pb2.User(user_email=email, user_password=None)
         return self.stub.email_find(user)
 
     def user_login(self, email:str, password:str) -> user_pb2.ResponseJwtToken:
-        user = user_pb2.User(email, password)
+        user = user_pb2.User(user_email=email, user_password=password)
         return self.stub.user_login(user)
     
     def password_update(self, email:str, password:str) -> base_pb2.Response:
-        user = user_pb2.User(email, password)
+        user = user_pb2.User(user_email=email, user_password=password)
         return self.stub.password_update(user)
         
     def refresh_token(self, token:str) -> user_pb2.ResponseAccessToken:
-        access_token = base_pb2.AccessToken(token)
+        access_token = base_pb2.AccessToken(access=token)
         return self.stub.refresh_token(access_token)
