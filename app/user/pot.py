@@ -20,8 +20,10 @@ def user_add_pot(request:Request, body:PotBody):
     grpc_response:base_pb2.Response = GRPC_UserPot().user_add_pot(token=request.cookies["access_token"], 
                               pot_code=body.code, 
                               pot_name=body.name)
-    status_code, message = grpc_response.http_code.split("/")
-    if message:
+    htc = grpc_response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
     return HTTP_Response(status_code=int(status_code))
 
@@ -31,8 +33,10 @@ def user_update_pot(request:Request, body:PotBody):
     grpc_response:base_pb2.Response = GRPC_Pot().pot_update(token=request.cookies["access_token"], 
                               pot_code=body.code, 
                               pot_name=body.name)
-    status_code, message = grpc_response.http_code.split("/")
-    if message:
+    htc = grpc_response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
     return HTTP_Response(status_code=int(status_code))
 
@@ -42,8 +46,10 @@ def user_remove_pot(request:Request, body:PotBody):
     grpc_response:base_pb2.Response = GRPC_UserPot().user_remove_pot(token=request.cookies["access_token"], 
                               pot_code=body.code, 
                               pot_name=body.name)
-    status_code, message = grpc_response.http_code.split("/")
-    if message:
+    htc = grpc_response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
     return HTTP_Response(status_code=int(status_code))
 
@@ -51,8 +57,10 @@ def user_remove_pot(request:Request, body:PotBody):
 def user_remove_pot(request:Request):
     grpc_response = GRPC_UserPot().user_read_pot_list(token=request.cookies["access_token"])
     def r(li, pot:Pot_db_pb2.ResponsePot):
-        status_code, message = pot.response.http_code.split("/")
-        if message:
+        htc = grpc_response.http_code.split("/")
+        status_code = htc[0]
+        if len(htc) == 2:
+            message = htc[1]
             return li
         return li + [{"pot_code":pot.pot.pot_code, "pot_name":pot.pot.pot_name}]
     from functools import reduce
@@ -66,8 +74,10 @@ async def get_info(websocket:WebSocket, func_code:str):
 @router.get("/{pot_code}")
 async def pot_info(request:Request, websocket:WebSocket, pot_code:str):
     grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(request.cookies["access_token"])
-    status_code, message = grpc_response.http_code.split("/")
-    if message:
+    htc = grpc_response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
         raise message
     if not pot_code in pot_connections:
         raise "화분 연결 x"

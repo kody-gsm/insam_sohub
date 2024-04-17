@@ -13,8 +13,10 @@ router = APIRouter(
 @router.websocket("/{pot_code}")
 async def connect_pot(pot_code:str, request:Request, websocket:WebSocket):
     grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(request.cookies["access_token"])
-    status_code, message = grpc_response.response.http_code.split("/")
-    if message:
+    htc = grpc_response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
         raise message
     if not pot_code in pot_connections:
         raise "화분 연결 x"

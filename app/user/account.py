@@ -15,16 +15,21 @@ class UserBody(BaseModel):
 @router.post("/sign-up")
 def post_sign_up(body:UserBody):
     response:base_pb2.Response = GRPC_User().user_create(body.email, body.password)
-    status_code, message = response.http_code.split("/")
-    if message:
+
+    htc = response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
     return HTTP_Response(status_code=int(status_code))
 
 @router.post("/login")
 def post_login(body:UserBody):
     token:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(body.email, body.password)
-    status_code, message = token.response.http_code.split("/")
-    if message:
+    htc = response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
     response = HTTP_Response({"refresh_token":token.refresh_token.refresh}, status_code=int(status_code))
     response.set_cookie("access_token", token.access_token.access)
