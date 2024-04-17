@@ -2,11 +2,12 @@ from logic._grpc.protos import base_pb2, Pot_db_pb2_grpc, Pot_db_pb2 as pot_pb2
 from logic._grpc.grpc_manager import GRPC_Manager
 from typing import Generator
 
-class GRPC_UserPot(GRPC_Manager):
+class GRPC_UserPot():
     def __new__(cls):
         if not hasattr(cls, "_instance"):
+            cls._instance = super().__new__(cls)
             cls._instance.manager = GRPC_Manager()
-            cls._instance.stub = Pot_db_pb2_grpc.UserPotTraffic(cls._instance.manager.channel)
+            cls._instance.stub = Pot_db_pb2_grpc.UserPotTrafficStub(cls._instance.manager.channel)
         return cls._instance
 
     def __init__(self):

@@ -1,7 +1,9 @@
-# from logic._grpc.grpc_user import GRPC_User
-# from grpc_image import GRPC_Image, GRPC_Manager
-# print(GRPC_User().user_create("abc","abc"))
-# print(GRPC_Image())
+from logic._grpc.grpc_user import GRPC_User
+from grpc_user_pot import GRPC_UserPot
+from grpc_image import GRPC_Image
+print(GRPC_UserPot())
+print(GRPC_Image())
+print(GRPC_User())
 
 # li = "asd"
 # def sp(n):
@@ -13,7 +15,7 @@
 # print(p1)
 # print(p2)
 
-def f(a, b):
-    print(b)
+# def f(a, b):
+#     print(b)
 
-f(b=10, a=5)
+# f(b=10, a=5)
