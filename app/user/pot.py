@@ -25,7 +25,7 @@ def user_add_pot(request:Request, body:PotBody):
     if len(htc) == 2:
         message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
-    return HTTP_Response(status_code=int(status_code))
+    return HTTP_Response(content={}, status_code=int(status_code))
 
 
 @router.post("/add")
@@ -38,7 +38,7 @@ def user_update_pot(request:Request, body:PotBody):
     if len(htc) == 2:
         message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
-    return HTTP_Response(status_code=int(status_code))
+    return HTTP_Response(content={}, status_code=int(status_code))
 
 
 @router.post("/remove")
@@ -51,7 +51,7 @@ def user_remove_pot(request:Request, body:PotBody):
     if len(htc) == 2:
         message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
-    return HTTP_Response(status_code=int(status_code))
+    return HTTP_Response(content={}, status_code=int(status_code))
 
 @router.get("/read")
 def user_remove_pot(request:Request):
@@ -74,7 +74,7 @@ async def get_info(websocket:WebSocket, func_code:str):
 @router.get("/{pot_code}")
 async def pot_info(request:Request, websocket:WebSocket, pot_code:str):
     grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(request.cookies["access_token"])
-    htc = grpc_response.http_code.split("/")
+    htc = grpc_response.response.http_code.split("/")
     status_code = htc[0]
     if len(htc) == 2:
         message = htc[1]

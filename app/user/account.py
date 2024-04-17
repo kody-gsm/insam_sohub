@@ -21,7 +21,7 @@ def post_sign_up(body:UserBody):
     if len(htc) == 2:
         message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
-    return HTTP_Response(status_code=int(status_code))
+    return HTTP_Response(content={}, status_code=int(status_code))
 
 @router.post("/login")
 def post_login(body:UserBody):
@@ -31,7 +31,7 @@ def post_login(body:UserBody):
     if len(htc) == 2:
         message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
-    response = HTTP_Response({"refresh_token":token.refresh_token.refresh}, status_code=int(status_code))
+    response = HTTP_Response(content={"refresh_token":token.refresh_token.refresh}, status_code=int(status_code))
     response.set_cookie("access_token", token.access_token.access)
     return response
 
