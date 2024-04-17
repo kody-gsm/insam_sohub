@@ -34,5 +34,5 @@ class GRPC_User():
         return self.stub.password_update(user)
         
     def refresh_token(self, token:str) -> user_pb2.ResponseAccessToken:
-        access_token = user_pb2.RefreshToken(access=token)
+        access_token = user_pb2.RefreshToken(refresh=token)
         return self.stub.refresh_token(access_token)
