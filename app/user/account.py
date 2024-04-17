@@ -21,6 +21,7 @@ def post_sign_up(body:UserBody):
     if len(htc) == 2:
         message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
+    print("what", status_code)
     return HTTP_Response(content={}, status_code=int(status_code))
 
 @router.post("/login")
