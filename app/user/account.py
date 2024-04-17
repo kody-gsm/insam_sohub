@@ -49,6 +49,17 @@ def refresh(refresh=Body(Annotated[str, None])):
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
     return HTTP_Response(content={}, status_code=int(status_code))
 
+@router.post("/password")
+def password(body:UserBody):
+    response:base_pb2.Response = GRPC_User().password_update(body.email, body.password)
+
+    htc = response.http_code.split("/")
+    status_code = htc[0]
+    if len(htc) == 2:
+        message = htc[1]
+        return HTTP_Response(content={"message":message}, status_code=int(status_code))
+    return HTTP_Response(content={}, status_code=int(status_code))
+
 # ? 인증 만들 생각이였는데 뭐지
 # def authentication(func:function):
 #     def wrapped_func(*arg, **kwarg):
