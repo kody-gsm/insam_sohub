@@ -47,7 +47,9 @@ def refresh(refresh=Body(Annotated[str, None])):
     if len(htc) == 2:
         message = htc[1]
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
-    return HTTP_Response(content={}, status_code=int(status_code))
+    response = HTTP_Response(content={}, status_code=int(status_code))
+    response.set_cookie("access_token", token.access_token.access)
+    return response
 
 @router.post("/password")
 def password(body:UserBody):
