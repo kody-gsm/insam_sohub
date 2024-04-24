@@ -32,6 +32,7 @@ def post_login(body:UserBody):
     _time = datetime.datetime.now()
     print("start time", _time)
     token:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(body.email, body.password)
+    print("grpc time", datetime.datetime.now() - _time)
     htc = token.response.http_code.split("/")
     status_code = htc[0]
     if len(htc) == 2:
