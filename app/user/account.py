@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from logic._grpc.grpc_user import GRPC_User
 from logic._grpc.protos import base_pb2, User_db_pb2
 from typing import Annotated
-import time
+import datetime
  
 router = APIRouter(
     prefix="/account"
@@ -29,9 +29,8 @@ def post_sign_up(body:UserBody):
 @router.post("/login")
 def post_login(body:UserBody):
     print("=========================")
-    _time = time.time()
+    _time = datetime.datetime.now()
     print("start time", _time)
-    
     token:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(body.email, body.password)
     htc = token.response.http_code.split("/")
     status_code = htc[0]
@@ -40,8 +39,8 @@ def post_login(body:UserBody):
         return HTTP_Response(content={"message":message}, status_code=int(status_code))
     response = HTTP_Response(content={"refresh_token":token.refresh_token.refresh}, status_code=int(status_code))
     response.set_cookie("access_token", token.access_token.access)
-
-    print("end time", _time - time.time())
+    
+    print("end time", datetime.datetime.now() - _time)
     return response
 
 @router.post("/refresh")
