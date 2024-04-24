@@ -32,7 +32,7 @@ def post_login(body:UserBody):
     _time = datetime.datetime.now()
     print("start time", _time)
     token:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(body.email, body.password)
-    print("grpc time", datetime.datetime.now() - _time)
+    print("grpc time", datetime.datetime.now(), datetime.datetime.now() - _time)
     htc = token.response.http_code.split("/")
     status_code = htc[0]
     if len(htc) == 2:
@@ -41,7 +41,7 @@ def post_login(body:UserBody):
     response = HTTP_Response(content={"refresh_token":token.refresh_token.refresh}, status_code=int(status_code))
     response.set_cookie("access_token", token.access_token.access)
     
-    print("end time", datetime.datetime.now() - _time)
+    print("end time", datetime.datetime.now(), datetime.datetime.now() - _time)
     return response
 
 @router.post("/refresh")
