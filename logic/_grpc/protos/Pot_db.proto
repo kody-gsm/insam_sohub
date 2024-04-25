@@ -5,7 +5,7 @@ service PotTraffic {
     rpc pot_create(Pot) returns (Response);
     rpc pot_delete(CertifiedPot) returns (Response);
     rpc pot_update(CertifiedPot) returns (Response);
-    rpc pot_read(AccessToken) returns (ResponsePot);
+    rpc pot_read(CertifiedPot) returns (ResponsePot);
     rpc pot_read_list(AccessToken) returns (stream ResponsePot);
 }
 

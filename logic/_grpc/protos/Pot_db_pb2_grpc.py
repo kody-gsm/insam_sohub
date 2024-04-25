@@ -32,7 +32,7 @@ class PotTrafficStub(object):
                 )
         self.pot_read = channel.unary_unary(
                 '/PotTraffic/pot_read',
-                request_serializer=logic_dot___grpc_dot_protos_dot_base__pb2.AccessToken.SerializeToString,
+                request_serializer=logic_dot___grpc_dot_protos_dot_Pot__db__pb2.CertifiedPot.SerializeToString,
                 response_deserializer=logic_dot___grpc_dot_protos_dot_Pot__db__pb2.ResponsePot.FromString,
                 )
         self.pot_read_list = channel.unary_stream(
@@ -95,7 +95,7 @@ def add_PotTrafficServicer_to_server(servicer, server):
             ),
             'pot_read': grpc.unary_unary_rpc_method_handler(
                     servicer.pot_read,
-                    request_deserializer=logic_dot___grpc_dot_protos_dot_base__pb2.AccessToken.FromString,
+                    request_deserializer=logic_dot___grpc_dot_protos_dot_Pot__db__pb2.CertifiedPot.FromString,
                     response_serializer=logic_dot___grpc_dot_protos_dot_Pot__db__pb2.ResponsePot.SerializeToString,
             ),
             'pot_read_list': grpc.unary_stream_rpc_method_handler(
@@ -176,7 +176,7 @@ class PotTraffic(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/PotTraffic/pot_read',
-            logic_dot___grpc_dot_protos_dot_base__pb2.AccessToken.SerializeToString,
+            logic_dot___grpc_dot_protos_dot_Pot__db__pb2.CertifiedPot.SerializeToString,
             logic_dot___grpc_dot_protos_dot_Pot__db__pb2.ResponsePot.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

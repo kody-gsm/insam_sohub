@@ -90,7 +90,7 @@ async def pot_info(websocket:WebSocket, pot_code:str):
         raise "token x"
     if not pot_code in pot_connections:
         raise "화분 연결 x"
-    grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(websocket.headers["access_token"])
+    grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(websocket.headers["access_token"], pot_code)
     htc = grpc_response.response.http_code.split("/")
     status_code = htc[0]
     if len(htc) == 2:

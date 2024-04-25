@@ -30,9 +30,11 @@ class GRPC_Pot():
         certified_pot = pot_pb2.CertifiedPot(access_token=access_token, pot=pot)
         return self.stub.pot_update(certified_pot)
     
-    def pot_read(self, token:str):
+    def pot_read(self, token:str, pot_code:str):
         access_token = base_pb2.AccessToken(access=token)
-        return self.stub.pot_read(access_token)
+        pot = pot_pb2.Pot(pot_code=pot_code, pot_name=None)
+        certified_pot = pot_pb2.CertifiedPot(access_token=access_token, pot=pot)
+        return self.stub.pot_read(certified_pot)
     
     def pot_read_list(self, token:str):
         access_token = base_pb2.AccessToken(access=token)
