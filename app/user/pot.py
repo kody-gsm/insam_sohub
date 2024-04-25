@@ -71,7 +71,10 @@ def user_remove_pot(request:Request):
         if len(htc) == 2:
             message = htc[1]
             return li
-        return li + [{"pot_code":pot.pot.pot_code, "pot_name":pot.pot.pot_name}]
+        is_active = False
+        if pot.pot.pot_code in pot_connections:
+            is_active = True
+        return li + [{"pot_code":pot.pot.pot_code, "pot_name":pot.pot.pot_name, "is_active":is_active}]
     from functools import reduce
     return HTTP_Response(content=reduce(r, grpc_response, []))
         
