@@ -18,7 +18,7 @@ class PotBody(BaseModel):
 
 @router.post("/add")
 def user_add_pot(request:Request, body:PotBody):
-    if not "access_token" in request.headers["access_token"]:
+    if not "access_token" in request.headers:
         return HTTP_Response(content={}, status_code=403)
     grpc_response:base_pb2.Response = GRPC_UserPot().user_add_pot(token=request.headers["access_token"], 
                               pot_code=body.code, 
@@ -33,7 +33,7 @@ def user_add_pot(request:Request, body:PotBody):
 
 @router.post("/update")
 def user_update_pot(request:Request, body:PotBody):
-    if not "access_token" in request.headers["access_token"]:
+    if not "access_token" in request.headers:
         return HTTP_Response(content={}, status_code=403)
     grpc_response:base_pb2.Response = GRPC_Pot().pot_update(token=request.headers["access_token"],
                               pot_code=body.code, 
@@ -48,7 +48,7 @@ def user_update_pot(request:Request, body:PotBody):
 
 @router.post("/remove")
 def user_remove_pot(request:Request, body:PotBody):
-    if not "access_token" in request.headers["access_token"]:
+    if not "access_token" in request.headers:
         return HTTP_Response(content={}, status_code=403)
     grpc_response:base_pb2.Response = GRPC_UserPot().user_remove_pot(token=request.headers["access_token"], 
                               pot_code=body.code, 
@@ -62,7 +62,7 @@ def user_remove_pot(request:Request, body:PotBody):
 
 @router.get("/read")
 def user_remove_pot(request:Request):
-    if not "access_token" in request.headers["access_token"]:
+    if not "access_token" in request.headers:
         return HTTP_Response(content={}, status_code=403)
     grpc_response = GRPC_UserPot().user_read_pot_list(token=request.headers["access_token"])
     def r(li, pot:Pot_db_pb2.ResponsePot):
@@ -82,7 +82,7 @@ async def get_info(websocket:WebSocket, func_code:str):
 
 @router.websocket("/{pot_code}")
 async def pot_info(request:Request, websocket:WebSocket, pot_code:str):
-    if not "access_token" in request.headers["access_token"]:
+    if not "access_token" in request.headers:
         return HTTP_Response(content={}, status_code=403)
     grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(request.headers["access_token"])
     htc = grpc_response.response.http_code.split("/")
