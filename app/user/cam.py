@@ -4,6 +4,7 @@ from logic._grpc.protos import base_pb2
 from logic._grpc.protos import Pot_db_pb2
 from app.pot.pot import pot_connections
 import time
+import asyncio
 
 router = APIRouter(
     prefix="/cam"
@@ -23,13 +24,16 @@ async def connect_pot(pot_code:str, request:Request, websocket:WebSocket):
     if not pot_code in pot_connections:
         raise "화분 연결 x"
     await websocket.accept()
-
-    async def get_cam(websocket:WebSocket):
-        await websocket.send("cam")
-        return await websocket.receive_text()
     
+    await pot_connections[pot_code].send_text("s4stream")
+
+    async def send_cam():
+        while True:
+            await websocket.send(pot_connections[pot_code].receive_text())
+    task = asyncio.create_task(send_cam())
     while True:
-        await websocket.send(get_cam(pot_connections[pot_code]))
-        time.sleep(1)
-
-    
+        if "s4stop" == await websocket.receive_text():
+            task.cancel()
+            await pot_connections[pot_code].send_text("s4stop")
+            await websocket.close()
+            
