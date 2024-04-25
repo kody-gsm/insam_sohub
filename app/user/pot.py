@@ -84,10 +84,10 @@ async def get_info(websocket:WebSocket, func_code:str):
     return await websocket.receive_text()
 
 @router.websocket("/{pot_code}")
-async def pot_info(request:Request, websocket:WebSocket, pot_code:str):
-    if not "access_token" in request.headers:
+async def pot_info(websocket:WebSocket, pot_code:str):
+    if not "access_token" in websocket.headers:
         return HTTP_Response(content={}, status_code=403)
-    grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(request.headers["access_token"])
+    grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(websocket.headers["access_token"])
     htc = grpc_response.response.http_code.split("/")
     status_code = htc[0]
     if len(htc) == 2:
