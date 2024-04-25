@@ -31,7 +31,7 @@ def user_add_pot(request:Request, body:PotBody):
     return HTTP_Response(content={}, status_code=int(status_code))
 
 
-@router.post("/add")
+@router.post("/update")
 def user_update_pot(request:Request, body:PotBody):
     if not "access_token" in request.cookies:
         return HTTP_Response(content={}, status_code=403)
@@ -80,7 +80,7 @@ async def get_info(websocket:WebSocket, func_code:str):
     await websocket.send(func_code)
     return await websocket.receive_text()
 
-@router.get("/{pot_code}")
+@router.websocket("/{pot_code}")
 async def pot_info(request:Request, websocket:WebSocket, pot_code:str):
     if not "access_token" in request.cookies:
         return HTTP_Response(content={}, status_code=403)
@@ -92,5 +92,10 @@ async def pot_info(request:Request, websocket:WebSocket, pot_code:str):
         raise message
     if not pot_code in pot_connections:
         raise "화분 연결 x"
+    websocket.accept()
     while True:
-        await websocket.send(get_info(pot_connections[pot_code], await websocket.receive_text()))
+        func_code = await websocket.receive_text()
+        if func_code == "exit":
+            websocket.close()
+            return
+        await websocket.send(get_info(pot_connections[pot_code], func_code))
