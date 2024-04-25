@@ -13,9 +13,9 @@ router = APIRouter(
 
 @router.websocket("/{pot_code}")
 async def connect_pot(pot_code:str, request:Request, websocket:WebSocket):
-    if not "access_token" in request.cookies:
+    if not "access_token" in request.headers["access_token"]:
         raise "권한 x"
-    grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(request.cookies["access_token"])
+    grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(request.headers["access_token"])
     htc = grpc_response.response.http_code.split("/")
     status_code = htc[0]
     if len(htc) == 2:
