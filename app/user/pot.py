@@ -18,6 +18,9 @@ class PotBody(BaseModel):
 
 @router.post("/add")
 def user_add_pot(request:Request, body:PotBody):
+    print(request.scope)
+    print(request.cookies)
+    print(request.headers)
     if not "access_token" in request.cookies:
         return HTTP_Response(content={}, status_code=403)
     grpc_response:base_pb2.Response = GRPC_UserPot().user_add_pot(token=request.cookies["access_token"], 
