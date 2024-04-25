@@ -14,8 +14,6 @@ async def connect_pot(websocket:WebSocket):
         raise "pot_code 중복"
     await websocket.accept()
     pot_connections[websocket.headers["pot_code"]] = websocket
-    
-
     GRPC_Pot().pot_create(pot_code=websocket.headers["pot_code"])
 
 
