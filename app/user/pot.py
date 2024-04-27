@@ -88,7 +88,7 @@ async def pot_info(websocket:WebSocket, pot_code:str):
     print("whaat")
     if not pot_code in pot_connections:
         raise "화분 연결 x"
-    websocket.accept() 
+    await websocket.accept() 
     grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(await websocket.receive_text(), pot_code)
     htc = grpc_response.response.http_code.split("/")
     status_code = htc[0]
