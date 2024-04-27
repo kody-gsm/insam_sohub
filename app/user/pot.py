@@ -86,17 +86,16 @@ async def get_info(websocket:WebSocket, func_code:str):
 @router.websocket("/{pot_code}")
 async def pot_info(websocket:WebSocket, pot_code:str):
     print("whaat")
-    if not "access_token" in websocket.headers:
-        raise "token x"
     if not pot_code in pot_connections:
         raise "화분 연결 x"
-    grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(websocket.headers["access_token"], pot_code)
+    websocket.accept() 
+    grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(await websocket.receive_text(), pot_code)
     htc = grpc_response.response.http_code.split("/")
     status_code = htc[0]
     if len(htc) == 2:
         message = htc[1]
-        raise message
-    websocket.accept()
+        websocket.close(reason=F"{status_code}:{message}")
+        return
     while True:
         func_code = await websocket.receive_text()
         if func_code == "exit":
