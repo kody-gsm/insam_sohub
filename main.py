@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 
 from app.pot.router import router as pot_router
 from app.user.router import router as user_router
@@ -28,3 +28,4 @@ if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(app=app)
+
