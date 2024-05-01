@@ -91,7 +91,7 @@ def user_remove_pot(request:Request, access_token:str|None = Header(default=None
         return HTTP_Response(content={"message":"gRPC server is cot connect"}, status_code=500)
 
     def r(li, pot:Pot_db_pb2.ResponsePot):
-        status_code, message = utils.check_status_code(grpc_response)
+        status_code, message = utils.check_status_code(pot.response)
         if status_code // 100 != 2:
             return li
         is_active = False
@@ -116,7 +116,7 @@ async def pot_info(websocket:WebSocket, pot_code:str):
     except _InactiveRpcError:
         return await websocket.close(reason="gRPC server is cot connect")
 
-    status_code, message = utils.check_status_code(grpc_response)
+    status_code, message = utils.check_status_code(grpc_response.response)
 
     if status_code // 100 != 2:
         return await websocket.close(reason=message)

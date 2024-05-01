@@ -19,7 +19,7 @@ async def connect_pot(pot_code:str, request:Request, websocket:WebSocket):
     except _InactiveRpcError:
         await websocket.close(reason="gRPC server is cot connect")
 
-    status_code, message = utils.check_status_code(grpc_response)
+    status_code, message = utils.check_status_code(grpc_response.response)
 
     # if status_code // 100 != 2:
     #     await websocket.close(reason=message)
