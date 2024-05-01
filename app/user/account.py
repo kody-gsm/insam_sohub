@@ -38,7 +38,7 @@ def post_login(body:UserBody):
     except _InactiveRpcError:
         return HTTP_Response(content={"message":"gRPC server is cot connect"}, status_code=500)
     
-    status_code, message = utils.check_status_code(grpc_response)
+    status_code, message = utils.check_status_code(grpc_response.response)
 
     if status_code // 100 == 2:
         content = {"refresh_token":grpc_response.refresh_token.refresh, 
@@ -58,7 +58,7 @@ def refresh(refresh=Body(Annotated[str, None])):
     except _InactiveRpcError:
         return HTTP_Response(content={"message":"gRPC server is cot connect"}, status_code=500)
 
-    status_code, message = utils.check_status_code(grpc_response)
+    status_code, message = utils.check_status_code(grpc_response.response)
 
     if status_code // 100 == 2:
         content = {"access_token":grpc_response.access_token.access}
