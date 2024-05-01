@@ -27,7 +27,7 @@ def user_add_pot(request:Request, body:PotBody, access_token:str|None = Header(d
                               pot_code=body.code, 
                               pot_name=body.name)
     except _InactiveRpcError:
-        return HTTP_Response(content={"message":"gRPC server is cot connect"}, status_code=500)
+        return HTTP_Response(content={"message":"gRPC server is not connect"}, status_code=500)
     
     status_code, message = utils.check_status_code(grpc_response)
 
@@ -48,7 +48,7 @@ def user_update_pot(request:Request, body:PotBody, access_token:str|None = Heade
                               pot_code=body.code, 
                               pot_name=body.name)
     except _InactiveRpcError:
-        return HTTP_Response(content={"message":"gRPC server is cot connect"}, status_code=500)
+        return HTTP_Response(content={"message":"gRPC server is not connect"}, status_code=500)
 
     status_code, message = utils.check_status_code(grpc_response)
 
@@ -69,7 +69,7 @@ def user_remove_pot(request:Request, body:PotBody, access_token:str|None = Heade
                               pot_code=body.code, 
                               pot_name=body.name)
     except _InactiveRpcError:
-        return HTTP_Response(content={"message":"gRPC server is cot connect"}, status_code=500)
+        return HTTP_Response(content={"message":"gRPC server is not connect"}, status_code=500)
     
     status_code, message = utils.check_status_code(grpc_response)
 
@@ -88,7 +88,7 @@ def user_remove_pot(request:Request, access_token:str|None = Header(default=None
     try:
         grpc_response = GRPC_UserPot().user_read_pot_list(token=access_token)
     except _InactiveRpcError:
-        return HTTP_Response(content={"message":"gRPC server is cot connect"}, status_code=500)
+        return HTTP_Response(content={"message":"gRPC server is not connect"}, status_code=500)
 
     def r(li, pot:Pot_db_pb2.ResponsePot):
         status_code, message = utils.check_status_code(pot.response)
@@ -114,7 +114,7 @@ async def pot_info(websocket:WebSocket, pot_code:str):
     try:
         grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(await websocket.receive_text(), pot_code)
     except _InactiveRpcError:
-        return await websocket.close(reason="gRPC server is cot connect")
+        return await websocket.close(reason="gRPC server is not connect")
 
     status_code, message = utils.check_status_code(grpc_response.response)
 
