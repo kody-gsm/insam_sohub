@@ -18,7 +18,7 @@ class PotBody(BaseModel):
     name:str|None = None
 
 @router.post("/add")
-def user_add_pot(request:Request, body:PotBody, access_token:str|None = Header(default=None)):
+def user_add_pot(request:Request, body:PotBody, access_token:str|None = Header(default=None, convert_underscores=False)):
     if not access_token:
         return HTTP_Response(content={"message":"token does not exist"}, status_code=403)
     
@@ -39,7 +39,7 @@ def user_add_pot(request:Request, body:PotBody, access_token:str|None = Header(d
     return HTTP_Response(content=content, status_code=status_code)
 
 @router.post("/update")
-def user_update_pot(request:Request, body:PotBody, access_token:str|None = Header(default=None)):
+def user_update_pot(request:Request, body:PotBody, access_token:str|None = Header(default=None, convert_underscores=False)):
     if not access_token:
         return HTTP_Response(content={"message":"token does not exist"}, status_code=403)
     
@@ -61,7 +61,7 @@ def user_update_pot(request:Request, body:PotBody, access_token:str|None = Heade
 
 
 @router.post("/remove")
-def user_remove_pot(request:Request, body:PotBody, access_token:str|None = Header(default=None)):
+def user_remove_pot(request:Request, body:PotBody, access_token:str|None = Header(default=None, convert_underscores=False)):
     if not access_token:
         return HTTP_Response(content={"message", "token does not exist"}, status_code=403)
     try:
@@ -81,7 +81,7 @@ def user_remove_pot(request:Request, body:PotBody, access_token:str|None = Heade
     return HTTP_Response(content=content, status_code=status_code)
 
 @router.get("/read")
-def user_remove_pot(request:Request, access_token:str|None = Header(default=None)):
+def user_remove_pot(request:Request, access_token:str|None = Header(default=None, convert_underscores=False)):
     if not access_token:
         return HTTP_Response(content={"message":"token does not exist"}, status_code=403)
     
@@ -136,3 +136,4 @@ async def pot_info(websocket:WebSocket, pot_code:str):
             await connect_socket.sockets[pot_code].send_text(f"{id}#{func_code}")
     finally:
         connect_socket.sockets.pop(id)
+        return await websocket.close(reason="연결 종료")
