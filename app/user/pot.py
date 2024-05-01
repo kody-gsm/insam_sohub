@@ -110,9 +110,10 @@ async def get_info(websocket:WebSocket, func_code:str):
 @router.websocket("/{pot_code}")
 async def pot_info(websocket:WebSocket, pot_code:str):
     await websocket.accept() 
-
+    data = await websocket.receive_text()
+    print(data)
     try:
-        grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(await websocket.receive_text(), pot_code)
+        grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(data, pot_code)
     except _InactiveRpcError:
         return await websocket.close(reason="gRPC server is not connect")
 
