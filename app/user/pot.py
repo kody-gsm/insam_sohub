@@ -20,7 +20,7 @@ class PotBody(BaseModel):
 @router.post("/add")
 def user_add_pot(request:Request, body:PotBody, access_token:str|None = Header(default=None)):
     if not access_token:
-        return HTTP_Response(content={"message", "token does not exist"}, status_code=403)
+        return HTTP_Response(content={"message":"token does not exist"}, status_code=403)
     
     try:
         grpc_response:base_pb2.Response = GRPC_UserPot().user_add_pot(token=access_token, 
@@ -41,7 +41,7 @@ def user_add_pot(request:Request, body:PotBody, access_token:str|None = Header(d
 @router.post("/update")
 def user_update_pot(request:Request, body:PotBody, access_token:str|None = Header(default=None)):
     if not access_token:
-        return HTTP_Response(content={"message", "token does not exist"}, status_code=403)
+        return HTTP_Response(content={"message":"token does not exist"}, status_code=403)
     
     try:
         grpc_response:base_pb2.Response = GRPC_Pot().pot_update(token=access_token,
@@ -83,7 +83,7 @@ def user_remove_pot(request:Request, body:PotBody, access_token:str|None = Heade
 @router.get("/read")
 def user_remove_pot(request:Request, access_token:str|None = Header(default=None)):
     if not access_token:
-        return HTTP_Response(content={"message", "token does not exist"}, status_code=403)
+        return HTTP_Response(content={"message":"token does not exist"}, status_code=403)
     
     try:
         grpc_response = GRPC_UserPot().user_read_pot_list(token=access_token)
