@@ -114,7 +114,8 @@ async def pot_info(websocket:WebSocket, pot_code:str):
     print(data)
     try:
         grpc_response:Pot_db_pb2.ResponsePot = GRPC_Pot().pot_read(data, pot_code)
-    except _InactiveRpcError:
+    except _InactiveRpcError as e:
+        print(e)
         return await websocket.close(reason="gRPC server is not connect")
 
     status_code, message = utils.check_status_code(grpc_response.response)
