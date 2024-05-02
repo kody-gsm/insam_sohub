@@ -7,6 +7,8 @@ from logic._grpc import utils
 from grpc._channel import _InactiveRpcError
 from typing import Annotated
  
+RPC
+
 router = APIRouter(
     prefix="/account"
 )
@@ -20,7 +22,7 @@ def post_sign_up(body:UserBody):
     try:
         grpc_response:base_pb2.Response = GRPC_User().user_create(body.email, body.password)
     except _InactiveRpcError:
-        return HTTP_Response(content={"message":"gRPC server is cot connect"}, status_code=500)
+        return HTTP_Response(content={"message":"gRPC server is not connect"}, status_code=500)
     
     status_code, message = utils.check_status_code(grpc_response)
 
@@ -36,7 +38,7 @@ def post_login(body:UserBody):
     try:
         grpc_response:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(body.email, body.password)
     except _InactiveRpcError:
-        return HTTP_Response(content={"message":"gRPC server is cot connect"}, status_code=500)
+        return HTTP_Response(content={"message":"gRPC server is not connect"}, status_code=503)
     
     status_code, message = utils.check_status_code(grpc_response.response)
 
@@ -56,7 +58,7 @@ def refresh(refresh=Body(Annotated[str, None])):
     try:
         grpc_response:User_db_pb2.ResponseAccessToken = GRPC_User().refresh_token(refresh)
     except _InactiveRpcError:
-        return HTTP_Response(content={"message":"gRPC server is cot connect"}, status_code=500)
+        return HTTP_Response(content={"message":"gRPC server is not connect"}, status_code=500)
 
     status_code, message = utils.check_status_code(grpc_response.response)
 
@@ -72,7 +74,7 @@ def password(body:UserBody):
     try:
         grpc_response:base_pb2.Response = GRPC_User().password_update(body.email, body.password)
     except _InactiveRpcError:
-        return HTTP_Response(content={"message":"gRPC server is cot connect"}, status_code=500)
+        return HTTP_Response(content={"message":"gRPC server is not connect"}, status_code=500)
     
     status_code, message = utils.check_status_code(grpc_response)
 
