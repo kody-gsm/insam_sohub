@@ -7,8 +7,6 @@ from logic._grpc import utils
 from grpc._channel import _InactiveRpcError
 from typing import Annotated
  
-RPC
-
 router = APIRouter(
     prefix="/account"
 )
