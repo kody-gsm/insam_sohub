@@ -29,7 +29,7 @@ async def add_img():
     from logic.socket import connect_socket
  
     for pot_code in connect_socket.pot_sockets:
-        await connect_socket.pot_sockets[pot_code].send(message="server#s4")
+        await connect_socket.pot_sockets[pot_code].send_text(message="server#s4")
 
 @app.get("/")
 def hello():
