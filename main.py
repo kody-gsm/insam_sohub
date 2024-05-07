@@ -20,12 +20,14 @@ app.add_middleware(
 app.include_router(router=pot_router)
 app.include_router(router=user_router)
 
-app.get("/")
+@app.get("/")
 def hello():
     return "hello"
 
 if __name__ == "__main__":
     import uvicorn
+    from app.user.image import sched
 
-    uvicorn.run(app=app)
+    sched.start()
+    uvicorn.run(app=app, host="0.0.0.0", port=25565)
 

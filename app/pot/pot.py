@@ -1,6 +1,9 @@
 from fastapi import APIRouter, WebSocket
 from logic._grpc.grpc_pot import GRPC_Pot
-import asyncio
+from logic._grpc.protos import User_db_pb2
+from logic._grpc.grpc_image import GRPC_Image
+from logic._grpc.grpc_user import GRPC_User
+import os
 from grpc._channel import _InactiveRpcError
 from uuid import uuid4
 from logic.socket import connect_socket
@@ -20,7 +23,7 @@ async def connect_pot(websocket:WebSocket):
     except _InactiveRpcError:
         return await websocket.close(reason="gRPC server is cot connect")
 
-    connect_socket.sockets[pot_code] = websocket
+    connect_socket.pot_sockets[pot_code] = websocket
 
     try:
         while True:
@@ -30,11 +33,17 @@ async def connect_pot(websocket:WebSocket):
                 return await websocket.close()
             
             id, data = recive_data.split("#")
+            if id == "server":
+                try:
+                    grpc_response:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(email=os.environ.get("SERVER_ID"), password=os.environ.get("SERVER_PASSWORD"))
+                    GRPC_Image().image_create(token=grpc_response.access_token, pot_code=pot_code, pot_name=None, image_file=data)
+                except _InactiveRpcError:
+                    return await websocket.close(reason="gRPC server is cot connect")
             
-            if not id in connect_socket.sockets:
-                return await websocket.close(reason="화분 연결 x")
-            
-            await connect_socket.sockets[id].send_text(f"{data}")
+            if not id in connect_socket.client_sockets:
+                pass # client 연결 x
+            else:
+                await connect_socket.client_sockets[id].send_text(f"{data}")
     finally:
-        connect_socket.sockets.pop(pot_code)
+        connect_socket.pot_sockets.pop(pot_code)
 

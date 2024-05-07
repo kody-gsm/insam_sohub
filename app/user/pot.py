@@ -95,7 +95,7 @@ def user_remove_pot(request:Request, access_token:str|None = Header(default=None
         if status_code // 100 != 2:
             return li
         is_active = False
-        if pot.pot.pot_code in connect_socket.sockets:
+        if pot.pot.pot_code in connect_socket.pot_sockets:
             is_active = True
         return li + [{"pot_code":pot.pot.pot_code, "pot_name":pot.pot.pot_name, "is_active":is_active}]
     
@@ -124,7 +124,7 @@ async def pot_info(websocket:WebSocket, pot_code:str):
         return await websocket.close(reason=message)
 
     id = connect_socket.get_uuid()
-    connect_socket.sockets[id] = websocket
+    connect_socket.client_sockets[id] = websocket
 
     try:
         while True:
@@ -132,10 +132,10 @@ async def pot_info(websocket:WebSocket, pot_code:str):
             if func_code == "exit":
                 return await websocket.close()
             
-            if not pot_code in connect_socket.sockets:
+            if not pot_code in connect_socket.pot_sockets:
                 return await websocket.close(reason="화분 연결 x")
             
-            await connect_socket.sockets[pot_code].send_text(f"{id}#{func_code}")
+            await connect_socket.pot_sockets[pot_code].send_text(f"{id}#{func_code}")
     finally:
-        connect_socket.sockets.pop(id)
+        connect_socket.client_sockets.pop(id)
         return await websocket.close(reason="연결 종료")
