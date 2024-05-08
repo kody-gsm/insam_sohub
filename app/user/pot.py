@@ -84,7 +84,6 @@ def user_remove_pot(request:Request, body:PotBody, access_token:str|None = Heade
 def user_remove_pot(request:Request, access_token:str|None = Header(default=None, convert_underscores=False)):
     if not access_token:
         return HTTP_Response(content={"message":"token does not exist"}, status_code=403)
-    
     try:
         grpc_response = GRPC_UserPot().user_read_pot_list(token=access_token)
     except _InactiveRpcError:
