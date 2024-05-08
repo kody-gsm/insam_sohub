@@ -34,11 +34,13 @@ async def connect_pot(websocket:WebSocket):
             
             id, data = recive_data.split("#")
             if id == "server":
-                try:
-                    grpc_response:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(email=os.environ.get("SERVER_ID"), password=os.environ.get("SERVER_PASSWORD"))
-                    GRPC_Image().image_create(token=grpc_response.access_token.access, pot_code=pot_code, pot_name=None, image_file=data)
-                except _InactiveRpcError:
-                    return await websocket.close(reason="gRPC server is cot connect")
+                code, data = data.split(":", 1)
+                if code == "s4":
+                    try:
+                        grpc_response:User_db_pb2.ResponseJwtToken = GRPC_User().user_login(email=os.environ.get("SERVER_ID"), password=os.environ.get("SERVER_PASSWORD"))
+                        GRPC_Image().image_create(token=grpc_response.access_token.access, pot_code=pot_code, pot_name=None, image_file=data)
+                    except _InactiveRpcError:
+                        return await websocket.close(reason="gRPC server is cot connect")
             
             if not id in connect_socket.client_sockets:
                 pass # client 연결 x
