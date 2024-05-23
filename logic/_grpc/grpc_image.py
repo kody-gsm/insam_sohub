@@ -37,7 +37,7 @@ class GRPC_Image():
         certified_image = image_pb2.CertifiedImage(access_token=access_token, pot=pot, image=image)
         return self.stub.image_read(certified_image)
     
-    def image_read_list(self, token:str, pot_code:str, pot_name:str):
+    def image_read_list(self, token:str, pot_code:str, pot_name:str|None=None):
         access_token = base_pb2.AccessToken(access=token)
         pot = pot_pb2.Pot(pot_code=pot_code, pot_name=pot_name)
         certified_pot = pot_pb2.CertifiedPot(access_token=access_token, pot=pot)
