@@ -33,8 +33,6 @@ async def image_read_list(request:Request, pot_code:str, access_token:str|None =
         grpc_response:ResponseImage = GRPC_Image().image_read_list(token=access_token, pot_code=pot_code)
     except _InactiveRpcError:
         return HTTP_Response(content={"message":"gRPC server is not connect"}, status_code=500)
-    
-    data = [image_to_dict(i) for i in grpc_response]
 
     def image_to_dict(image:ResponseImage):
         status_code, message = utils.check_status_code(image.response)
@@ -45,5 +43,7 @@ async def image_read_list(request:Request, pot_code:str, access_token:str|None =
             "image_time":image.image.image_time,
             "image":image.image.image_file
         }
-    
+
+    data = [image_to_dict(i) for i in grpc_response]
+
     return HTTP_Response(content=data)
