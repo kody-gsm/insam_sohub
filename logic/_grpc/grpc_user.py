@@ -1,6 +1,8 @@
 from logic._grpc.protos import base_pb2, User_db_pb2_grpc, User_db_pb2 as user_pb2
 from logic._grpc.grpc_manager import GRPC_Manager
 
+
+
 class GRPC_User():
     def __new__(cls):
         if not hasattr(cls, "_instance"):

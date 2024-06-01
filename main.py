@@ -20,10 +20,6 @@ app.add_middleware(
 app.include_router(router=pot_router)
 app.include_router(router=user_router)
 
-@app.get("hello")
-async def hello():
-    return "hello"
-
 @app.get("/image-add")
 async def add_img():
     from logic.socket import connect_socket

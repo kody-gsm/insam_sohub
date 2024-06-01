@@ -81,7 +81,7 @@ def user_remove_pot(request:Request, body:PotBody, access_token:str|None = Heade
     return HTTP_Response(content=content, status_code=status_code)
 
 @router.get("/read")
-def user_remove_pot(request:Request, access_token:str|None = Header(default=None, convert_underscores=False)):
+def user_read_pot(request:Request, access_token:str|None = Header(default=None, convert_underscores=False)):
     if not access_token:
         return HTTP_Response(content={"message":"token does not exist"}, status_code=403)
     try:

@@ -10,8 +10,7 @@ class GRPC_Manager(object):
 
             # cls._instance.channel = grpc.insecure_channel(
             #     '{}:{}'.format(cls._instance.host, cls._instance.server_port))
-            cls._instance.channel = grpc.insecure_channel(
-                '{}:{}'.format("localhost", "50051"))
+            cls._instance.channel = grpc.insecure_channel("localhost:50051")
         return cls._instance
     
     def __init__(self):
