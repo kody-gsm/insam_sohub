@@ -4,11 +4,14 @@ from app.pot.router import router as pot_router
 from app.user.router import router as user_router
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+from app.user.image import sched
 
 load_dotenv()
 
 app = FastAPI()
- 
+
+sched.start()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # 모든 origin을 허용하거나, 필요한 경우 특정 origin만 허용할 수 있습니다.
