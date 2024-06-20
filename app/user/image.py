@@ -1,3 +1,6 @@
+import base64
+import os
+
 from apscheduler.schedulers.background import BackgroundScheduler
 from logic.socket import connect_socket
  
@@ -38,10 +41,19 @@ async def image_read_list(request:Request, pot_code:str, access_token:str|None =
         status_code, message = utils.check_status_code(image.response)
         if status_code // 100 != 2:
             return {"status":status_code, "message":message}
+
+        parent_project_diratory = os.getcwd().rsplit('\\', maxsplit=1)[0]
+        media_diratory = f'{parent_project_diratory}\\Insam_dbhub\\media\\{image.image.image_file}'
+
+        b64image_file = ''
+
+        with open(media_diratory, 'rb') as image_file:
+            b64image_file = base64.b64encode(image_file.read()).decode('utf-8')
+
         return {
             "image_id":image.image.image_id,
             "image_time":image.image.image_time,
-            "image":image.image.image_file
+            "image":b64image_file
         }
 
     data = [image_to_dict(i) for i in grpc_response]
